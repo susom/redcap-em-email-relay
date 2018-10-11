@@ -21,7 +21,9 @@
       "institution": "Stanford University"
     }
   ],
-
+  "no-auth-pages": [
+    "service"
+  ],
   "permissions": [
     "redcap_module_project_enable"
   ],
