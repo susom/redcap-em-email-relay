@@ -64,7 +64,7 @@
         {
           "key": "ip",
           "name": "IP address or CIDR notation (e.g. 192.168.123.1/24)",
-          "required": true,
+          "required": false,
           "type": "text"
         }
       ]

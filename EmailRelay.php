@@ -85,6 +85,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
 
         // Verify IP Filter
         $ip_filter = $this->getProjectSetting('ip', $project_id);
+        $this->emDebug("ip_filter:",$ip_filter);
         if (!empty($ip_filter)) {
             $isValid = false;
             foreach ($ip_filter as $filter) {
