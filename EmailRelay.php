@@ -138,7 +138,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         $this->emDebug("t". $email_token, "o". $this->email_token);
         if(empty($email_token) || $email_token != $this->email_token) {
             return array(
-                "error"=>"Invalid Email Token $email_token | " . $this->email_token
+                "error"=>"Invalid Email Token $email_token"
             );
         }
 
