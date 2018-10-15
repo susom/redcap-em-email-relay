@@ -21,6 +21,9 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
     <p>
         Each email sent is logged to REDCap logs (and optionally to the specified record/project)
     </p>
+    <p>
+        Emails are sent as HTML.  If using a text template, any linebreaks will be converted to BR tags
+    </p>
 <br>
 
 <h4>Endpoint</h4>
