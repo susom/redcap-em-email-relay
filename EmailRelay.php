@@ -107,7 +107,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         }
 
         // Verify IP Filter
-        $ip_filter = array_filter(array($external_tokens["ip"][$token_match]);
+        $ip_filter = array_filter(array($external_tokens["ip"][$token_match]));
 
         $this->emDebug("ip_filter:",$ip_filter);
 
