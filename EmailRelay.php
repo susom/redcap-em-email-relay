@@ -24,11 +24,11 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // If in project context, load the object
         global $project_id;
         if ($project_id) {
-            self::emLog("Loading " . self::TOKEN_KEY . " for project $project_id");
+            emlog("Loading " . self::TOKEN_KEY . " for project $project_id");
             $this->email_token = $this->getProjectSetting(self::TOKEN_KEY, $project_id);
         }
 
-        self::emLog($this->PREFIX . " constructed $project_id");
+        emlog($this->PREFIX . " constructed $project_id");
     }
 
     public function redcap_module_project_enable($version, $project_id) {
@@ -73,7 +73,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // Verify Email Token
         $email_token = empty($_POST['email_token']) ? null : $_POST['email_token'];
 
-        self::emLog("t". $email_token, "o". $this->email_token);
+        emlog("t". $email_token, "o". $this->email_token);
         if(empty($email_token) || $email_token != $this->email_token) {
             return array(
                 "error"=>"Invalid Email Token"
