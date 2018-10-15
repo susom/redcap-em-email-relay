@@ -23,7 +23,7 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
     You must send a 'POST' request to the following url to initiate an email:
 </p>
 <pre>
-<?php echo $module->getProjectUrl($project_id) ?>
+<?php echo $module->getProjectUrl($project_id) ?>&NOAUTH
 </pre>
 <br>
 <h4>Example</h4>
