@@ -94,7 +94,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
                     break;
                 }
             }
-            if (!$isValid) return (array("error"=> "invalid source IP"));
+            if (!$isValid) return (array("error"=> "Invalid source IP!"));
         }
 
         $to         = empty($_POST['to']) ? null : $_POST['to'];
