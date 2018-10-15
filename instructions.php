@@ -22,7 +22,7 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
         Each email sent is logged to REDCap logs (and optionally to the specified record/project)
     </p>
     <p>
-        Emails are sent as HTML.  If using a text template, any linebreaks will be converted to BR tags
+        Emails are sent as &lt;HTML&gt;.  If using a text template, any linebreaks will be converted to &lt;BR&gt; tags
     </p>
 <br>
 
@@ -42,9 +42,9 @@ The following parameters are valid in the body of the POST
     email_token: <?php
 
     if(isset($project_id)){
-        echo "<b>". $module->email_token . "</b>  (this token is unique to this project)";
+        echo "<b>". $module->email_token . "</b>  (this token is unique to this project)\r\n";
     }else{
-        echo "[XXXXXXXXXX]";
+        echo "[XXXXXXXXXX]\r\n";
     }
 
     ?>
