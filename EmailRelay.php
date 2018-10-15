@@ -3,6 +3,7 @@ namespace Stanford\EmailRelay;
 
 require_once "emLoggerTrait.php";
 
+use ExternalModules\ExternalModules;
 use REDCap;
 use Message;
 
