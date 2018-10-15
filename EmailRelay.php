@@ -54,7 +54,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         return $url;
     }
 
-    public function getSystenmUrl($project_id) {
+    public function getSystemUrl($project_id) {
         $url = $this->getUrl("service",true, true);
         $url .= "&NOAUTH";
         return $url;
@@ -90,24 +90,26 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // Verify Email Token
         $email_token = empty($_POST['email_token']) ? null : $_POST['email_token'];
 
-        $external_tokens = $this->getSubSettings("external_tokens");
+        $external_tokens = $this->getSystemSetting("email_token");
         $this->emDebug("External Tokens: ", $external_tokens);
-        $token_match = false;
-        foreach($external_tokens["email_token"] as $token_i => $token){
+        $ip_filter      = array();
+        foreach($external_tokens as $token_i => $token){
             if($email_token == $token){
-                $token_match = $token_i;
+                $external_ips   = $this->getSystemSetting("ip");
+                $ip_filter      = array_filter(array($external_ips[$token_i]));
                 break;
             }
+            $token = null;
         }
 
-        if($token_match === false) {
+        if(is_null($token)) {
             return array(
                 "error"=>"Invalid Email Token : $email_token"
             );
         }
 
         // Verify IP Filter
-        $ip_filter = array_filter(array($external_tokens["ip"][$token_match]));
+        
 
         $this->emDebug("ip_filter:",$ip_filter);
 
