@@ -37,6 +37,7 @@ The following parameters are valid in the body of the POST
 </p>
 <pre>
     email_token: <?php
+
     if(isset($project_id)){
         echo "<b>". $module->email_token . "</b>  (this token is unique to this project)";
     }else{

@@ -16,7 +16,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
 {
     use emLoggerTrait;
 
-    const TOKEN_KEY = "email_token";
+    const TOKEN_KEY = "project_email_token";
     public $email_token;
     private $url;
 
@@ -205,7 +205,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         if (empty($subject)) return array("error" => "subject is required");
         $msg->setSubject($subject);
 
-        $msg->setBody($body);
+        $msg->setBody(nl2br($body));
 
         // Attachments
         // TODO: Dev if necessary...
