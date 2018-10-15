@@ -1,6 +1,8 @@
 <?php
 namespace Stanford\EmailRelay;
 
+require_once "emLoggerTrait.php";
+
 use REDCap;
 use Message;
 
@@ -164,25 +166,4 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         $ip_ip_net = $ip_ip & $ip_mask;
         return ($ip_ip_net == $ip_net);
     }
-
-
-    function emLog() {
-        $emLogger = \ExternalModules\ExternalModules::getModuleInstance('em_logger');
-        $emLogger->emLog($this->PREFIX, func_get_args(), "INFO");
-    }
-
-    function emDebug() {
-        // Check if debug enabled
-        if ($this->getSystemSetting('enable-system-debug-logging') || $this->getProjectSetting('enable-project-debug-logging')) {
-            $emLogger = \ExternalModules\ExternalModules::getModuleInstance('em_logger');
-            $emLogger->emLog($this->PREFIX, func_get_args(), "DEBUG");
-        }
-    }
-
-    function emError() {
-        $emLogger = \ExternalModules\ExternalModules::getModuleInstance('em_logger');
-        $emLogger->emLog($this->PREFIX, func_get_args(), "ERROR");
-    }
-
-
 }
