@@ -102,7 +102,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
 
         if($token_match === false) {
             return array(
-                "error"=>"Invalid Email Token : $email_token";
+                "error"=>"Invalid Email Token : $email_token"
             );
         }
 
