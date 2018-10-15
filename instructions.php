@@ -9,12 +9,17 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
 
 <h3>Email Relay API Instructions</h3>
     <p>
-    This module allows you to create a project-specific API url that can be used for relaying email messages from an
-        outside system (such as a GCP/Amazon project.  It does not use the normal REDCap API tokens but a project
-        specific email token that was generated when the module was activated on this project.
+    This module allows you to create either system level or project-specific API urls that can be used for relaying email messages from an
+        outside system (such as a GCP/Amazon project).  It does not use the normal REDCap API tokens. 
     </p>
     <p>
-        Each email sent is logged to the REDCap project logs (and optionally to the specified record)
+    If emails are related to a specific project, enable this external module on that project.
+    </p>
+    <p>
+    If emails are not related to a project, then using the system level configuration to generate a URL/Token.
+    </p>
+    <p>
+        Each email sent is logged to REDCap logs (and optionally to the specified record/project)
     </p>
 <br>
 
@@ -23,7 +28,7 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
     You must send a 'POST' request to the following url to initiate an email:
 </p>
 <pre>
-<?php echo $module->getProjectUrl($project_id) ?>&NOAUTH
+<?php echo isset($project_id) ? $module->getProjectUrl($project_id) : $module->getSystemUrl() ?>&NOAUTH
 </pre>
 <br>
 <h4>Example</h4>
@@ -31,7 +36,14 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
 The following parameters are valid in the body of the POST
 </p>
 <pre>
-    email_token: <b><?php echo $module->email_token; ?></b> (this token is unique to this project)
+    email_token: <?php
+    if(isset($project_id)){
+        echo "<b>". $module->email_token . "</b>  (this token is unique to this project)";
+    }else{
+        echo "[XXXXXXXXXX]";
+    }
+
+    ?>
     to:          A comma-separated list of valid email addresses (no names)
     from_name:   Jane Doe
     from_email:  Jane@doe.com
@@ -44,13 +56,16 @@ The following parameters are valid in the body of the POST
 <br>
 
 
-<h4>IP Filters</h4>
+
 <?php
-    $ip_filters = $module->getProjectSetting('ip');
-    if (empty($ip_filters)) {
-        echo "<div class='alert alert-danger'>No IP Filters are defined.  This is strongly suggested for improved security.</div>";
-    } else {
-        echo "<pre>" . implode("\n", $ip_filters) . "</pre>";
+    if(isset($project_id)){
+        echo "<h4>IP Filters</h4>";
+        $ip_filters = $module->getProjectSetting('ip');
+        if (empty($ip_filters)) {
+            echo "<div class='alert alert-danger'>No IP Filters are defined.  This is strongly suggested for improved security.</div>";
+        } else {
+            echo "<pre>" . implode("\n", $ip_filters) . "</pre>";
+        }
     }
 ?>
 

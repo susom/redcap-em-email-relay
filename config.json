@@ -30,6 +30,11 @@
 
   "links": {
     "control-center": [
+      {
+        "name": "Email Relay Instructions",
+        "icon": "gear",
+        "url": "instructions.php"
+      }
     ],
     "project": [
       {
@@ -46,7 +51,31 @@
       "name": "<b>Enable Debug Logging (system-wide)</b>",
       "required": false,
       "type": "checkbox"
-    }
+    },
+    {
+      "key": "external_tokens",
+      "name": "External API Access Tokens",
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+          "key": "ip",
+          "name": "IP address or CIDR notation (e.g. 192.168.123.1/24, blank for no filter)",
+          "required": false,
+          "type": "text"
+        },{
+          "key": "email_token",
+          "name": "Generate Random Token",
+          "required": true,
+          "type": "text"
+        },{
+          "key": "usage",
+          "name": "Please describe how this API will be used, who created it and how long should it remain active.",
+          "required": true,
+          "type": "textarea"
+        }
+      ]
+    },
   ],
 
   "project-settings": [
