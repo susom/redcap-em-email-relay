@@ -31,7 +31,7 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
 The following parameters are valid in the body of the POST
 </p>
 <pre>
-    email_token: <?php echo $module->token; ?> (this token is unique to this project)
+    email_token: <?php echo $module->email_token; ?> (this token is unique to this project)
     to:          A comma-separated list of valid email addresses (no names)
     from_name:   Jane Doe
     from_email:  Jane@doe.com

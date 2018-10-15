@@ -16,7 +16,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
 {
     use emLoggerTrait;
 
-    const TOKEN_KEY = "email_relay_api_token";
+    const TOKEN_KEY = "email_token";
     public $email_token;
     private $url;
 
@@ -27,11 +27,11 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // If in project context, load the object
         global $project_id;
         if ($project_id) {
-            $this->emlog("Loading " . self::TOKEN_KEY . " for project $project_id");
+            $this->emDebug("Loading " . self::TOKEN_KEY . " for project $project_id");
             $this->email_token = $this->getProjectSetting(self::TOKEN_KEY, $project_id);
         }
 
-        $this->emlog($this->PREFIX . " constructed $project_id");
+        $this->emDebug($this->PREFIX . " constructed $project_id");
     }
 
     public function redcap_module_project_enable($version, $project_id) {
@@ -76,10 +76,10 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // Verify Email Token
         $email_token = empty($_POST['email_token']) ? null : $_POST['email_token'];
 
-        $this->emlog("t". $email_token, "o". $this->email_token);
+        $this->emDebug("t". $email_token, "o". $this->email_token);
         if(empty($email_token) || $email_token != $this->email_token) {
             return array(
-                "error"=>"Invalid Email Token"
+                "error"=>"Invalid Email Token $email_token | " . $this->email_token
             );
         }
 
@@ -96,7 +96,6 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
             if (!$isValid) return (array("error"=> "invalid source IP"));
         }
 
-
         $to         = empty($_POST['to']) ? null : $_POST['to'];
         $from_name  = empty($_POST['from_name']) ? null : $_POST['from_name'];
         $from_email = empty($_POST['from_email']) ? null : $_POST['from_email'];
@@ -105,7 +104,6 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         $subject    = empty($_POST['subject']) ? null : $_POST['subject'];
         $body       = empty($_POST['body']) ? null : $_POST['body'];
         $record_id  = empty($_POST['record_id']) ? null : $_POST['record_id'];
-
 
         $msg = new Message();
 
