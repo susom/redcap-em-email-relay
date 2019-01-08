@@ -77,9 +77,8 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
     }
 
     public function sendEmail() {
-        global $project_id;
-
-        if(isset($_GET["pid"])){       
+        // global $project_id;
+        if(isset($_GET["pid"])){
             return $this->sendProjectEmail();
         }
 
@@ -143,7 +142,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         }
 
         // Verify IP Filter
-        $ip_filter = array_filter($this->getProjectSetting('ip', $project_id));
+        $ip_filter = array_filter($this->getProjectSetting('project-ip', $project_id));
 
         $this->emDebug("ip_filter:",$ip_filter);
 
