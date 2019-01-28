@@ -16,7 +16,9 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
 {
     use emLoggerTrait;
 
-    const TOKEN_KEY = "project_email_token";
+    const PROJECT_TOKEN_KEY = "project_email_token";
+    const SYSTEM_TOKEN_KEY  = "system_email_token";
+
     public $email_token;
     private $url;
 
@@ -27,22 +29,33 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // If in project context, load the object
         global $project_id;
         if ($project_id) {
-            $this->emDebug("Loading " . self::TOKEN_KEY . " for project $project_id");
-            $this->email_token = $this->getProjectSetting(self::TOKEN_KEY, $project_id);
+            $this->emDebug("Loading " . self::PROJECT_TOKEN_KEY . " for project $project_id");
+            $this->email_token = $this->getProjectSetting(self::PROJECT_TOKEN_KEY, $project_id);
         }
 
         $this->emDebug($this->PREFIX . " constructed $project_id");
     }
 
+
+    /**
+     * When enabled for a new project, the project's email token will be automatically created randomly
+     * @param $version
+     * @param $project_id
+     */
     public function redcap_module_project_enable($version, $project_id) {
         if (empty($this->email_token)) {
             // Generate a random token for this project
             $this->email_token = generateRandomHash(10);
-            $this->setProjectSetting(self::TOKEN_KEY, $this->email_token, $project_id);
+            $this->setProjectSetting(self::PROJECT_TOKEN_KEY, $this->email_token, $project_id);
+            $this->emDebug($this->PREFIX . " " . $version . " was enabled for project $project_id and a new token was generated: " . $this->email_token);
         }
-        // self::log($this->PREFIX . " " . $version . " was enabled for project $project_id");
     }
 
+    /**
+     * We could delete on disable, but we won't do that in case the token has been distributed
+     * @param $version
+     * @param $project_id
+     */
     public function redcap_module_project_disable($version, $project_id) {
         // self::log($this->PREFIX . " " . $version . " was disabled for project $project_id");
     }
@@ -77,19 +90,18 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
     }
 
     public function sendEmail() {
-        // global $project_id;
         if(isset($_GET["pid"])){
             return $this->sendProjectEmail();
+        } else {
+            return $this->sendSystemEmail();
         }
-
-        return $this->sendSystemEmail();
     }
 
     public function sendSystemEmail() {
         // Verify Email Token
         $email_token = empty($_POST['email_token']) ? null : $_POST['email_token'];
 
-        $external_tokens = $this->getSystemSetting("email_token");
+        $external_tokens = $this->getSystemSetting("system_email_token");
         $this->emDebug("External Tokens: ", $external_tokens);
         $ip_filter      = array();
         foreach($external_tokens as $token_i => $token){
@@ -108,8 +120,6 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         }
 
         // Verify IP Filter
-        
-
         $this->emDebug("ip_filter:",$ip_filter);
 
         if (!empty($ip_filter)) {

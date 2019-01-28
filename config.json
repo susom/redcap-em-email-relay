@@ -61,7 +61,7 @@
           "type": "text"
         },
         {
-          "key": "email_token",
+          "key": "system_email_token",
           "name": "Generate Random Token",
           "required": true,
           "type": "text"
