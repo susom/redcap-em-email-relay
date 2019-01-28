@@ -102,6 +102,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         $email_token = empty($_POST['email_token']) ? null : $_POST['email_token'];
 
         $external_tokens = $this->getSystemSetting("system_email_token");
+
         $this->emDebug("External Tokens: ", $external_tokens);
         $ip_filter      = array();
         foreach($external_tokens as $token_i => $token){

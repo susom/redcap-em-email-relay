@@ -3,7 +3,12 @@ namespace Stanford\EmailRelay;
 /** @var \Stanford\EmailRelay\EmailRelay $module */
 
 
-require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
+if (isset($_GET['pid'])) {
+    require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
+} else {
+    require APP_PATH_DOCROOT . "ControlCenter/header.php";
+}
+
 
 ?>
 
