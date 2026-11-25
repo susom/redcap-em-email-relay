@@ -2,7 +2,8 @@
 namespace Stanford\EmailRelay;
 /** @var \Stanford\EmailRelay\EmailRelay $module */
 
-echo $module->emLog("Incoming Request", $_REQUEST);
+// Do not log $_REQUEST: it holds the recipients, subject, body and the email token.
+$module->emDebug("Incoming relay request" . (isset($_GET['pid']) ? " for project " . intval($_GET['pid']) : " (system)"));
 
 $result = $module->sendEmail();
 
