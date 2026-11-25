@@ -47,7 +47,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
             // Generate a random token for this project
             $this->email_token = generateRandomHash(10);
             $this->setProjectSetting(self::PROJECT_TOKEN_KEY, $this->email_token, $project_id);
-            $this->emDebug($this->PREFIX . " " . $version . " was enabled for project $project_id and a new token was generated: " . $this->email_token);
+            $this->emDebug($this->PREFIX . " " . $version . " was enabled for project $project_id and a new token was generated");
         }
     }
 
@@ -103,7 +103,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
 
         $external_tokens = $this->getSystemSetting("system_email_token");
 
-        $this->emDebug("External Tokens: ", $external_tokens);
+        $this->emDebug("External tokens configured: " . count((array) $external_tokens));
         $ip_filter      = array();
         foreach($external_tokens as $token_i => $token){
             if($email_token == $token){
@@ -145,8 +145,7 @@ class EmailRelay extends \ExternalModules\AbstractExternalModule
         // Verify Email Token
         $email_token = empty($_POST['email_token']) ? null : $_POST['email_token'];
 
-        $this->emDebug("t". $email_token, "o". $this->email_token);
-        if(empty($email_token) || $email_token != $this->email_token) {
+                if(empty($email_token) || $email_token != $this->email_token) {
             return array(
                 "error"=>"Invalid Email Token $email_token"
             );
